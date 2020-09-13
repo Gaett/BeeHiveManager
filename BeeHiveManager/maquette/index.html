@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Mes ruchers</title>
+    <link rel="stylesheet" href="dist/spectre.min.css">
+    <link rel="stylesheet" href="dist/spectre-icons.min.css">
+    <link rel="stylesheet" href="dist/spectre-exp.min.css">
+    <script type="text/javascript" src="dist/Chart.bundle.js"></script>
+    <script type="text/javascript" src="dist/Chart.bundle.min.js"></script>
+    <style>
+        .btn-link:hover {
+            background-color: #4CAF50;
+            /* Green */
+            color: white;
+        }
+
+        .column {
+            padding-top: 3cm;
+        }
+
+        .canvas {
+            width: 100% !important;
+            height: 80% !important;
+        }
+
+        header {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #3b4351;
+        }
+
+        table {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="section bg-gray">
+        <header class="navbar">
+            <section class="navbar-section">
+                <div class="input-group input-inline">
+                    <div class="form-group">
+                        <select class="form-select">
+                            <option>Rucher 1</option>
+                            <option>Rucher 2</option>
+                            <option>Rucher 3</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary input-group-btn">Valider</button>
+                </div>
+            </section>
+            <section class="navbar-center">
+                <figure class="avatar avatar-xl">
+                    <img src="img/logo.jpg" / alt="bee">
+                </figure>
+            </section>
+            <section class="navbar-section">
+                <div class="input-group input-inline">
+                    <div class="btn-group btn-group-block">
+                        <button class="btn">Poids</button>
+                        <button class="btn">Humidité</button>
+                        <button class="btn">Température</button>
+                    </div>
+                </div>
+            </section>
+        </header>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column col-9">
+                <canvas id="myChart" class="canvas"></canvas>
+            </div>
+            <div class="column col-3">
+                <table>
+                    <tr>
+                        <th>Action</th>
+                        <th>Date</th>
+                    </tr>
+                    <tr>
+                        <td>test</td>
+                        <td>test</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column col-9">
+                <canvas id="myChart2" class="canvas"></canvas>
+            </div>
+            <div class="column col-3">
+                <table>
+                    <tr>
+                        <th>Action</th>
+                        <th>Date</th>
+                    </tr>
+                    <tr>
+                        <td>test</td>
+                        <td>test</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    /** Datas class is used to represent a set of datas
+     * data : array of value on Y axis
+     * label : name of values set
+     * borderColor : color of this set
+     * fill : is the area under the line is colored or not
+     */
+    class Datas {
+        constructor(data, label, borderColor, fill) {
+            this.data = data;
+            this.label = label;
+            this.borderColor = borderColor;
+            this.fill = fill;
+        }
+    }
+
+
+    /** ChartDatas class is used to represent a set of datas according to a defined template by ChartJs
+     * labels = arrays of things used to set the number of values on the X axis
+     * dataset = object from Datas class
+     */
+    class ChartDatas {
+        constructor(labels, datas) {
+            this.labels = labels;
+            this.datasets = datas;
+        }
+    }
+    var ctx1 = document.getElementById('myChart').getContext('2d');
+    var ctx2 = document.getElementById('myChart2').getContext('2d');
+
+    var datas_humidite = new Datas([86, 114, 106, 106, 107, 111, 133, 221, 783, 2478], "Humidite", "#3e95cd", false);
+    var datas_temperature = new Datas([282, 350, 411, 502, 635, 809, 947, 1402, 3700, 5267], "Temperature", "#8e5ea2", false);
+    var datas_poids = new Datas([168, 170, 178, 190, 203, 276, 408, 547, 675, 734], "Poids", "#3cba9f", false);
+
+    var data = new ChartDatas([1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050], [datas_poids]);
+
+    var description = 'Graphique de surveillance des données';
+
+    function newChart(context, datas, description) {
+        new Chart(context, {
+            type: 'line',
+            data: datas,
+            options: {
+                title: {
+                    display: true,
+                    text: description
+                }
+            }
+        });
+    }
+
+    newChart(ctx1, data, description);
+    newChart(ctx2, data, description);
+</script>
+
+</html>
